@@ -4,46 +4,174 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Weather App</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
-
 <body>
 
-    <div class="weather-animation">
+    <div class="weather-background">
 
-        <div class="sun-animation">
-            ☀️
-        </div>
+        <div class="glow glow-one"></div>
+        <div class="glow glow-two"></div>
 
-        <div class="cloud-animation cloud-one">
-            ☁️
-        </div>
+        <div class="sun-animation">☀</div>
 
-        <div class="cloud-animation cloud-two">
-            ☁️
-        </div>
+        <div class="cloud-animation cloud-one">☁</div>
+        <div class="cloud-animation cloud-two">☁</div>
 
-        <div
-            class="rain-container"
-            id="rainContainer"
-        ></div>
+        <div id="rainContainer"></div>
 
-        <div
-            class="lightning"
-            id="lightning"
-        >
+        <div id="lightning" class="lightning">
             ⚡
         </div>
 
     </div>
+
+    <div
+        id="menuOverlay"
+        class="overlay">
+    </div>
+
+    <aside
+        id="sideMenu"
+        class="side-panel">
+
+        <div class="panel-header">
+
+            <h2>Weather App</h2>
+
+            <button
+                id="closeMenu"
+                class="close-button">
+                ×
+            </button>
+
+        </div>
+
+
+        <button
+            class="menu-item"
+            data-target="currentSection">
+
+            <span>🌤️</span>
+            <span>Cuaca sekarang</span>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-target="hourlySection">
+
+            <span>🕐</span>
+            <span>Per jam</span>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-target="dailySection">
+
+            <span>📅</span>
+            <span>Prakiraan</span>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-target="detailSection">
+
+            <span>📊</span>
+            <span>Detail cuaca</span>
+
+        </button>
+
+    </aside>
+
+    <div
+        id="settingsOverlay"
+        class="overlay">
+    </div>
+
+
+    <aside
+        id="settingsPanel"
+        class="side-panel">
+
+        <div class="panel-header">
+
+            <h2>Pengaturan</h2>
+
+            <button
+                id="closeSettings"
+                class="close-button">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div>
+
+                <strong>Satuan suhu</strong>
+
+                <small>
+                    Pilih satuan temperatur
+                </small>
+
+            </div>
+
+
+            <select id="unitSelect">
+
+                <option value="C">
+                    Celsius (°C)
+                </option>
+
+                <option value="F">
+                    Fahrenheit (°F)
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div>
+
+                <strong>Animasi cuaca</strong>
+
+                <small>
+                    Matahari, awan dan hujan
+                </small>
+
+            </div>
+
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="animationToggle"
+                    checked>
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+    </aside>
 
     <main class="weather-app">
 
@@ -51,8 +179,8 @@
 
             <div class="location">
 
-                <h1 id="cityName">
-                    Medan
+                <h1>
+                    Kota <span id="cityName">Medan</span>
                 </h1>
 
                 <p id="countryName">
@@ -65,46 +193,47 @@
             <div class="header-buttons">
 
                 <button
-                    type="button"
-                    aria-label="Menu"
-                >
+                    id="menuButton"
+                    title="Menu">
+
                     ☷
+
                 </button>
 
+
                 <button
-                    type="button"
-                    aria-label="Settings"
-                >
+                    id="settingsButton"
+                    title="Pengaturan">
+
                     ⚙
+
                 </button>
 
             </div>
 
         </header>
 
-        <section class="search-box">
+        <section class="search-wrapper">
 
-            <input
-                type="text"
-                id="cityInput"
-                placeholder="Cari kota..."
-                autocomplete="off"
-            >
+            <div class="search-box">
 
-            <button
-                type="button"
-                id="searchButton"
-                aria-label="Cari"
-            >
-                🔍
-            </button>
+                <input
+                    id="cityInput"
+                    type="text"
+                    value="Medan"
+                    placeholder="Cari kota...">
+
+                <button id="searchButton">
+                    🔍
+                </button>
+
+            </div>
 
         </section>
 
-        <section
+        <div
             id="loading"
-            class="loading hidden"
-        >
+            class="loading hidden">
 
             <div class="spinner"></div>
 
@@ -112,45 +241,34 @@
                 Mengambil data cuaca...
             </span>
 
-        </section>
+        </div>
 
-        <section
-            id="errorMessage"
-            class="error-box hidden"
-        >
+        <div
+            id="errorBox"
+            class="error-box hidden">
 
-            <div class="error-icon">
-                ⚠️
-            </div>
+            <strong>
+                ⚠️ Terjadi Kesalahan
+            </strong>
 
-            <div>
+            <p id="errorText"></p>
 
-                <strong>
-                    Terjadi Kesalahan
-                </strong>
-
-                <p id="errorText">
-                    Gagal mengambil data cuaca.
-                </p>
-
-            </div>
-
-        </section>
+        </div>
 
         <div
             id="weatherContent"
-            class="hidden"
-        >
+            class="weather-content hidden">
 
-            <section class="current-weather">
+            <section
+                id="currentSection"
+                class="current-weather">
 
-                <div class="current-icon">
+                <div class="weather-icon-wrapper">
 
                     <img
                         id="weatherIcon"
                         src=""
-                        alt="Cuaca"
-                    >
+                        alt="Weather">
 
                 </div>
 
@@ -161,62 +279,33 @@
                         --
                     </span>
 
-                    <sup>
-                        °
+                    <sup id="temperatureUnit">
+                        °C
                     </sup>
 
                 </div>
 
 
-                <p
-                    id="weatherDescription"
-                    class="weather-description"
-                >
+                <h2 id="weatherDescription">
                     -
-                </p>
+                </h2>
 
 
                 <p
                     id="weatherRange"
-                    class="weather-range"
-                >
+                    class="weather-range">
+
                     -
+
                 </p>
 
             </section>
 
-            <section class="glass-card pollen-card">
+            <section
+                id="hourlySection"
+                class="weather-card">
 
-                <div class="pollen-left">
-
-                    <div class="pollen-icon">
-                        🌼
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            Serbuk sari
-                        </h3>
-
-                        <p>
-                            Very low pollen count
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <span class="detail-link">
-                    Lihat detail ›
-                </span>
-
-            </section>
-
-            <section class="glass-card">
-
-                <div class="section-title">
+                <div class="section-header">
 
                     <h2>
                         Sekarang
@@ -231,14 +320,16 @@
 
                 <div
                     id="hourlyForecast"
-                    class="hourly-container"
-                ></div>
+                    class="hourly-container">
+                </div>
 
             </section>
 
-            <section class="glass-card">
+            <section
+                id="dailySection"
+                class="weather-card">
 
-                <div class="section-title">
+                <div class="section-header">
 
                     <h2>
                         Prakiraan cuaca beberapa hari ke depan
@@ -249,30 +340,22 @@
 
                 <div
                     id="dailyForecast"
-                    class="daily-container"
-                ></div>
-
-
-                <button
-                    class="detail-button"
-                    type="button"
-                >
-                    Lihat detail
-                </button>
+                    class="daily-container">
+                </div>
 
             </section>
 
-            <section class="glass-card">
+            <section
+                id="detailSection"
+                class="weather-card">
 
-                <div class="section-title">
+                <div class="section-header">
 
                     <h2>
                         Kondisi cuaca
                     </h2>
 
-                    <span>
-                        ›
-                    </span>
+                    <span>›</span>
 
                 </div>
 
@@ -282,9 +365,7 @@
 
                     <div class="detail-item">
 
-                        <span>
-                            💨
-                        </span>
+                        <span>💨</span>
 
                         <small>
                             Angin
@@ -299,9 +380,7 @@
 
                     <div class="detail-item">
 
-                        <span>
-                            🌡️
-                        </span>
+                        <span>🌡️</span>
 
                         <small>
                             Terasa seperti
@@ -316,9 +395,7 @@
 
                     <div class="detail-item">
 
-                        <span>
-                            💧
-                        </span>
+                        <span>💧</span>
 
                         <small>
                             Kelembaban
@@ -333,9 +410,7 @@
 
                     <div class="detail-item">
 
-                        <span>
-                            🌫️
-                        </span>
+                        <span>🌫️</span>
 
                         <small>
                             Titik embun
@@ -350,9 +425,7 @@
 
                     <div class="detail-item">
 
-                        <span>
-                            ⏱️
-                        </span>
+                        <span>⏱️</span>
 
                         <small>
                             Tekanan udara
@@ -367,9 +440,7 @@
 
                     <div class="detail-item">
 
-                        <span>
-                            👁️
-                        </span>
+                        <span>👁️</span>
 
                         <small>
                             Jarak pandang
@@ -385,14 +456,11 @@
 
             </section>
 
-            <section class="glass-card sun-card">
-
+            <section class="weather-card sun-card">
 
                 <div class="sun-info">
 
-                    <span>
-                        ☀️
-                    </span>
+                    <span>🌅</span>
 
                     <small>
                         Terbit
@@ -405,18 +473,16 @@
                 </div>
 
 
-                <div class="sun-track">
+                <div class="sun-line">
 
-                    <div class="sun-dot"></div>
+                    <div class="sun-point"></div>
 
                 </div>
 
 
                 <div class="sun-info sunset">
 
-                    <span>
-                        🌇
-                    </span>
+                    <span>🌇</span>
 
                     <small>
                         Terbenam
@@ -430,118 +496,12 @@
 
             </section>
 
-            <section class="glass-card">
-
-                <div class="section-title">
-
-                    <h2>
-                        Kiat gaya hidup
-                    </h2>
-
-                    <span>
-                        ›
-                    </span>
-
-                </div>
-
-
-                <div class="tips-grid">
-
-
-                    <div class="tip">
-
-                        <span>
-                            😷
-                        </span>
-
-                        <p>
-                            Gunakan<br>
-                            masker
-                        </p>
-
-                    </div>
-
-
-                    <div class="tip">
-
-                        <span>
-                            ☀️
-                        </span>
-
-                        <p>
-                            Hindari sinar<br>
-                            matahari
-                        </p>
-
-                    </div>
-
-
-                    <div class="tip">
-
-                        <span>
-                            💧
-                        </span>
-
-                        <p>
-                            Jaga<br>
-                            kelembaban
-                        </p>
-
-                    </div>
-
-
-                    <div class="tip">
-
-                        <span>
-                            🧹
-                        </span>
-
-                        <p>
-                            Bersihkan<br>
-                            rumah
-                        </p>
-
-                    </div>
-
-
-                    <div class="tip">
-
-                        <span>
-                            🥤
-                        </span>
-
-                        <p>
-                            Minum air<br>
-                            yang cukup
-                        </p>
-
-                    </div>
-
-
-                    <div class="tip">
-
-                        <span>
-                            🍱
-                        </span>
-
-                        <p>
-                            Jaga kebersihan<br>
-                            makanan
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
         </div>
 
-        <footer>
-            • Weather App 
-        </footer>
 
+        <footer>
+            • Weather App •
+        </footer>
 
     </main>
 
