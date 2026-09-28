@@ -18,8 +18,8 @@ const searchButton =
 const loading =
     document.getElementById("loading");
 
-const errorMessage =
-    document.getElementById("errorMessage");
+const errorBox =
+    document.getElementById("errorBox");
 
 const errorText =
     document.getElementById("errorText");
@@ -27,8 +27,6 @@ const errorText =
 const weatherContent =
     document.getElementById("weatherContent");
 
-
-// Current weather
 
 const cityName =
     document.getElementById("cityName");
@@ -42,88 +40,59 @@ const weatherIcon =
 const temperature =
     document.getElementById("temperature");
 
+const temperatureUnit =
+    document.getElementById("temperatureUnit");
+
 const weatherDescription =
-    document.getElementById(
-        "weatherDescription"
-    );
+    document.getElementById("weatherDescription");
 
 const weatherRange =
-    document.getElementById(
-        "weatherRange"
-    );
+    document.getElementById("weatherRange");
 
 
-// Details
+const hourlyForecast =
+    document.getElementById("hourlyForecast");
+
+const dailyForecast =
+    document.getElementById("dailyForecast");
+
 
 const wind =
     document.getElementById("wind");
 
 const feelsLike =
-    document.getElementById(
-        "feelsLike"
-    );
+    document.getElementById("feelsLike");
 
 const humidity =
-    document.getElementById(
-        "humidity"
-    );
+    document.getElementById("humidity");
 
 const dewPoint =
-    document.getElementById(
-        "dewPoint"
-    );
+    document.getElementById("dewPoint");
 
 const pressure =
-    document.getElementById(
-        "pressure"
-    );
+    document.getElementById("pressure");
 
 const visibility =
-    document.getElementById(
-        "visibility"
-    );
+    document.getElementById("visibility");
 
-
-// Sunrise / Sunset
 
 const sunrise =
-    document.getElementById(
-        "sunrise"
-    );
+    document.getElementById("sunrise");
 
 const sunset =
-    document.getElementById(
-        "sunset"
-    );
-
-
-// Forecast
-
-const hourlyForecast =
-    document.getElementById(
-        "hourlyForecast"
-    );
-
-const dailyForecast =
-    document.getElementById(
-        "dailyForecast"
-    );
-
-
-// Time
+    document.getElementById("sunset");
 
 const currentTime =
-    document.getElementById(
-        "currentTime"
-    );
-
-
-// Rain
+    document.getElementById("currentTime");
 
 const rainContainer =
-    document.getElementById(
-        "rainContainer"
-    );
+    document.getElementById("rainContainer");
+
+let currentWeatherData = null;
+
+let currentForecastData = null;
+
+let currentUnit = "C";
 
 searchButton.addEventListener(
     "click",
@@ -153,7 +122,7 @@ async function searchWeather() {
     if (!city) {
 
         showError(
-            "Silakan masukkan nama kota."
+            "Masukkan nama kota terlebih dahulu."
         );
 
         return;
@@ -162,6 +131,8 @@ async function searchWeather() {
 
 
     showLoading();
+
+    hideError();
 
 
     try {
@@ -177,10 +148,11 @@ async function searchWeather() {
         const currentData =
             await currentResponse.json();
 
+
         if (!currentResponse.ok) {
 
             throw new Error(
-                getApiErrorMessage(
+                getErrorMessage(
                     currentResponse.status,
                     currentData
                 )
@@ -188,14 +160,17 @@ async function searchWeather() {
 
         }
 
+
+        currentWeatherData =
+            currentData;
+
+
         const forecastUrl =
             `${FORECAST_API}?lat=${currentData.coord.lat}&lon=${currentData.coord.lon}&appid=${API_KEY}&units=metric&lang=id`;
 
 
         const forecastResponse =
-            await fetch(
-                forecastUrl
-            );
+            await fetch(forecastUrl);
 
 
         const forecastData =
@@ -205,7 +180,7 @@ async function searchWeather() {
         if (!forecastResponse.ok) {
 
             throw new Error(
-                getApiErrorMessage(
+                getErrorMessage(
                     forecastResponse.status,
                     forecastData
                 )
@@ -213,25 +188,22 @@ async function searchWeather() {
 
         }
 
-        displayCurrentWeather(
-            currentData
-        );
+
+        currentForecastData =
+            forecastData;
 
 
-        displayHourlyForecast(
-            forecastData
-        );
+        displayCurrentWeather();
 
+        displayHourlyForecast();
 
-        displayDailyForecast(
-            forecastData
-        );
+        displayDailyForecast();
+
 
         changeWeatherTheme(
             currentData.weather[0].id
         );
 
-        hideError();
 
         weatherContent.classList.remove(
             "hidden"
@@ -240,21 +212,15 @@ async function searchWeather() {
 
     } catch (error) {
 
-        console.error(
-            "Weather Error:",
-            error
-        );
-
-
-        weatherContent.classList.add(
-            "hidden"
-        );
-
+        console.error(error);
 
         showError(
             error.message
         );
 
+        weatherContent.classList.add(
+            "hidden"
+        );
 
     } finally {
 
@@ -264,9 +230,11 @@ async function searchWeather() {
 
 }
 
-function displayCurrentWeather(
-    data
-) {
+function displayCurrentWeather() {
+
+    const data =
+        currentWeatherData;
+
 
     cityName.textContent =
         data.name;
@@ -278,10 +246,15 @@ function displayCurrentWeather(
         );
 
 
-    temperature.textContent =
-        Math.round(
-            data.main.temp
-        );
+    weatherIcon.src =
+        `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
+
+
+    weatherIcon.alt =
+        data.weather[0].description;
+
+
+    updateTemperature();
 
 
     weatherDescription.textContent =
@@ -291,19 +264,13 @@ function displayCurrentWeather(
 
 
     weatherRange.textContent =
-        `Min ${Math.round(data.main.temp_min)}° / Max ${Math.round(data.main.temp_max)}°`;
-
-
-    weatherIcon.src =
-        `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-
-
-    weatherIcon.alt =
-        data.weather[0].description;
+        `Min ${formatTemperature(data.main.temp_min)} / Max ${formatTemperature(data.main.temp_max)}`;
 
 
     feelsLike.textContent =
-        `${Math.round(data.main.feels_like)}°`;
+        formatTemperature(
+            data.main.feels_like
+        );
 
 
     humidity.textContent =
@@ -322,15 +289,13 @@ function displayCurrentWeather(
         `${(data.visibility / 1000).toFixed(1)} km`;
 
 
-    const dew =
-        calculateDewPoint(
-            data.main.temp,
-            data.main.humidity
-        );
-
-
     dewPoint.textContent =
-        `${Math.round(dew)}°`;
+        `${Math.round(
+            calculateDewPoint(
+                data.main.temp,
+                data.main.humidity
+            )
+        )}°`;
 
 
     sunrise.textContent =
@@ -352,118 +317,68 @@ function displayCurrentWeather(
 
 }
 
-function displayHourlyForecast(
-    data
-) {
+function updateTemperature() {
 
-    hourlyForecast.innerHTML =
-        "";
+    if (!currentWeatherData) {
+
+        return;
+
+    }
 
 
-    /*
-        Mengambil 8 data forecast
-        pertama menggunakan slice().
-    */
+    let temp =
+        currentWeatherData.main.temp;
+
+
+    if (currentUnit === "F") {
+
+        temp =
+            (temp * 9 / 5) + 32;
+
+    }
+
+
+    temperature.textContent =
+        Math.round(temp);
+
+
+    temperatureUnit.textContent =
+        `°${currentUnit}`;
+
+}
+
+
+function formatTemperature(temp) {
+
+    let value = temp;
+
+
+    if (currentUnit === "F") {
+
+        value =
+            (temp * 9 / 5) + 32;
+
+    }
+
+
+    return `${Math.round(value)}°${currentUnit}`;
+
+}
+
+function displayHourlyForecast() {
+
+    hourlyForecast.innerHTML = "";
+
 
     const hours =
-        data.list.slice(
+        currentForecastData.list.slice(
             0,
             8
         );
 
 
-    /*
-        map() digunakan untuk
-        mengubah data API menjadi
-        struktur HTML.
-    */
-
-    const html =
-        hours.map(
-            (item, index) => {
-
-                const date =
-                    new Date(
-                        item.dt * 1000
-                    );
-
-
-                const time =
-                    date.toLocaleTimeString(
-                        "id-ID",
-                        {
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        }
-                    );
-
-
-                return `
-
-                    <div
-                        class="hour-item ${
-                            index === 0
-                                ? "active"
-                                : ""
-                        }"
-                    >
-
-                        <div class="hour-time">
-
-                            ${
-                                index === 0
-                                    ? "Sekarang"
-                                    : time
-                            }
-
-                        </div>
-
-
-                        <img
-                            src="https://openweathermap.org/img/wn/${item.weather[0].icon}.png"
-                            alt="${item.weather[0].description}"
-                        >
-
-
-                        <div class="hour-temp">
-
-                            ${Math.round(
-                                item.main.temp
-                            )}°
-
-                        </div>
-
-                    </div>
-
-                `;
-
-            }
-        ).join("");
-
-
-    hourlyForecast.innerHTML =
-        html;
-
-}
-
-function displayDailyForecast(
-    data
-) {
-
-    dailyForecast.innerHTML =
-        "";
-
-
-    /*
-        Kelompokkan data berdasarkan
-        tanggal.
-    */
-
-    const groupedDays = {};
-
-
-    data.list.forEach(
-        (item) => {
+    hours.forEach(
+        (item, index) => {
 
             const date =
                 new Date(
@@ -471,150 +386,218 @@ function displayDailyForecast(
                 );
 
 
-            const dateKey =
-                date.toLocaleDateString(
-                    "en-CA"
+            const time =
+                date.toLocaleTimeString(
+                    "id-ID",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
                 );
 
 
-            if (!groupedDays[dateKey]) {
+            const element =
+                document.createElement(
+                    "div"
+                );
 
-                groupedDays[dateKey] = [];
+
+            element.className =
+                "hour-item";
+
+
+            if (index === 0) {
+
+                element.classList.add(
+                    "active"
+                );
 
             }
 
 
-            groupedDays[dateKey].push(
-                item
+            element.innerHTML = `
+
+                <div class="hour-time">
+
+                    ${
+                        index === 0
+                            ? "Sekarang"
+                            : time
+                    }
+
+                </div>
+
+
+                <img
+                    src="https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png"
+                    alt="${item.weather[0].description}"
+                >
+
+
+                <div class="hour-temp">
+
+                    ${formatTemperature(
+                        item.main.temp
+                    )}
+
+                </div>
+
+            `;
+
+
+            hourlyForecast.appendChild(
+                element
             );
 
         }
     );
 
+}
 
-    /*
-        Object.values() digunakan
-        untuk mengambil seluruh
-        kelompok forecast.
-    */
+function displayDailyForecast() {
+
+    dailyForecast.innerHTML = "";
+
+
+    const groups = {};
+
+
+    currentForecastData.list.forEach(
+        item => {
+
+            const date =
+                new Date(
+                    item.dt * 1000
+                );
+
+
+            const key =
+                date.toLocaleDateString(
+                    "en-CA"
+                );
+
+
+            if (!groups[key]) {
+
+                groups[key] = [];
+
+            }
+
+
+            groups[key].push(item);
+
+        }
+    );
+
 
     const days =
-        Object.values(
-            groupedDays
-        ).slice(
+        Object.values(groups).slice(
             0,
             5
         );
 
 
-    const html =
-        days.map(
-            (dayItems, index) => {
+    days.forEach(
+        (items, index) => {
 
-                /*
-                    Ambil data tengah hari
-                    jika tersedia.
-                */
+            const selected =
+                items.find(
+                    item => {
 
-                const selected =
-                    dayItems.find(
-                        (item) => {
+                        const hour =
+                            new Date(
+                                item.dt * 1000
+                            ).getHours();
 
-                            const hour =
-                                new Date(
-                                    item.dt * 1000
-                                ).getHours();
+                        return (
+                            hour >= 12 &&
+                            hour <= 14
+                        );
 
-                            return (
-                                hour >= 11 &&
-                                hour <= 14
-                            );
-
-                        }
-                    ) || dayItems[0];
+                    }
+                ) || items[0];
 
 
-                const temperatures =
-                    dayItems.map(
-                        item =>
-                            item.main.temp
-                    );
+            const temperatures =
+                items.map(
+                    item =>
+                        item.main.temp
+                );
 
 
-                const min =
-                    Math.min(
-                        ...temperatures
-                    );
+            const min =
+                Math.min(
+                    ...temperatures
+                );
 
 
-                const max =
-                    Math.max(
-                        ...temperatures
-                    );
+            const max =
+                Math.max(
+                    ...temperatures
+                );
 
 
-                const date =
-                    new Date(
-                        selected.dt * 1000
-                    );
+            const date =
+                new Date(
+                    selected.dt * 1000
+                );
 
 
-                const dayName =
-                    getDayName(
+            const element =
+                document.createElement(
+                    "div"
+                );
+
+
+            element.className =
+                "day-item";
+
+
+            element.innerHTML = `
+
+                <div class="day-name">
+
+                    ${getDayName(
                         date,
                         index
-                    );
+                    )}
+
+                </div>
 
 
-                return `
+                <div class="day-weather">
 
-                    <div class="day-item">
+                    <img
+                        src="https://openweathermap.org/img/wn/${selected.weather[0].icon}@2x.png"
+                        alt="${selected.weather[0].description}"
+                    >
 
-                        <div class="day-name">
-
-                            ${dayName}
-
-                        </div>
-
-
-                        <div class="day-weather">
-
-                            <img
-                                src="https://openweathermap.org/img/wn/${selected.weather[0].icon}.png"
-                                alt="${selected.weather[0].description}"
-                            >
-
-                        </div>
+                </div>
 
 
-                        <div class="day-temperature">
+                <div class="day-temperature">
 
-                            ${Math.round(min)}°
-                            /
-                            ${Math.round(max)}°
+                    ${formatTemperature(min)}
+                    /
+                    ${formatTemperature(max)}
 
-                        </div>
+                </div>
 
-                    </div>
-
-                `;
-
-            }
-        ).join("");
+            `;
 
 
-    dailyForecast.innerHTML =
-        html;
+            dailyForecast.appendChild(
+                element
+            );
+
+        }
+    );
 
 }
 
 function changeWeatherTheme(
     weatherId
 ) {
-
-    /*
-        Bersihkan tema sebelumnya.
-    */
 
     document.body.classList.remove(
         "sunny",
@@ -624,10 +607,7 @@ function changeWeatherTheme(
     );
 
 
-    /*
-        THUNDERSTORM
-        200 - 299
-    */
+    rainContainer.innerHTML = "";
 
     if (
         weatherId >= 200 &&
@@ -644,12 +624,6 @@ function changeWeatherTheme(
 
     }
 
-
-    /*
-        DRIZZLE
-        300 - 399
-    */
-
     if (
         weatherId >= 300 &&
         weatherId < 400
@@ -664,12 +638,6 @@ function changeWeatherTheme(
         return;
 
     }
-
-
-    /*
-        RAIN
-        500 - 599
-    */
 
     if (
         weatherId >= 500 &&
@@ -686,34 +654,7 @@ function changeWeatherTheme(
 
     }
 
-
-    /*
-        SNOW
-        600 - 699
-    */
-
-    if (
-        weatherId >= 600 &&
-        weatherId < 700
-    ) {
-
-        document.body.classList.add(
-            "cloudy"
-        );
-
-        return;
-
-    }
-
-
-    /*
-        CLEAR
-        800
-    */
-
-    if (
-        weatherId === 800
-    ) {
+    if (weatherId === 800) {
 
         document.body.classList.add(
             "sunny"
@@ -724,28 +665,7 @@ function changeWeatherTheme(
     }
 
 
-    /*
-        CLOUDS
-        801 - 804
-    */
-
-    if (
-        weatherId >= 801 &&
-        weatherId <= 804
-    ) {
-
-        document.body.classList.add(
-            "cloudy"
-        );
-
-        return;
-
-    }
-
-
-    /*
-        Default
-    */
+    // Clouds
 
     document.body.classList.add(
         "cloudy"
@@ -755,17 +675,9 @@ function changeWeatherTheme(
 
 function createRain() {
 
-    rainContainer.innerHTML =
-        "";
-
-
-    /*
-        Membuat 100 tetesan air.
-    */
-
     for (
         let i = 0;
-        i < 100;
+        i < 120;
         i++
     ) {
 
@@ -775,41 +687,24 @@ function createRain() {
             );
 
 
-        drop.classList.add(
-            "raindrop"
-        );
+        drop.className =
+            "raindrop";
 
-
-        /*
-            Posisi random.
-        */
 
         drop.style.left =
             `${Math.random() * 100}%`;
 
 
-        /*
-            Kecepatan random.
-        */
-
         drop.style.animationDuration =
-            `${0.45 + Math.random() * 0.7}s`;
+            `${0.4 + Math.random() * 0.8}s`;
 
-
-        /*
-            Delay random.
-        */
 
         drop.style.animationDelay =
             `${Math.random() * 2}s`;
 
 
-        /*
-            Panjang tetesan random.
-        */
-
-        drop.style.height =
-            `${12 + Math.random() * 16}px`;
+        drop.style.opacity =
+            `${0.3 + Math.random() * 0.7}`;
 
 
         rainContainer.appendChild(
@@ -820,38 +715,263 @@ function createRain() {
 
 }
 
-function getApiErrorMessage(
+const menuButton =
+    document.getElementById(
+        "menuButton"
+    );
+
+const closeMenu =
+    document.getElementById(
+        "closeMenu"
+    );
+
+const sideMenu =
+    document.getElementById(
+        "sideMenu"
+    );
+
+const menuOverlay =
+    document.getElementById(
+        "menuOverlay"
+    );
+
+
+menuButton.addEventListener(
+    "click",
+    openMenu
+);
+
+
+closeMenu.addEventListener(
+    "click",
+    closeMenuPanel
+);
+
+
+menuOverlay.addEventListener(
+    "click",
+    closeMenuPanel
+);
+
+
+function openMenu() {
+
+    sideMenu.classList.add(
+        "open"
+    );
+
+    menuOverlay.classList.add(
+        "open"
+    );
+
+}
+
+
+function closeMenuPanel() {
+
+    sideMenu.classList.remove(
+        "open"
+    );
+
+    menuOverlay.classList.remove(
+        "open"
+    );
+
+}
+
+document
+    .querySelectorAll(
+        ".menu-item[data-target]"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const target =
+                        document.getElementById(
+                            this.dataset.target
+                        );
+
+
+                    closeMenuPanel();
+
+
+                    setTimeout(
+                        () => {
+
+                            target.scrollIntoView({
+                                behavior:
+                                    "smooth",
+                                block:
+                                    "center"
+                            });
+
+                        },
+                        250
+                    );
+
+                }
+            );
+
+        }
+    );
+
+const settingsButton =
+    document.getElementById(
+        "settingsButton"
+    );
+
+const closeSettings =
+    document.getElementById(
+        "closeSettings"
+    );
+
+const settingsPanel =
+    document.getElementById(
+        "settingsPanel"
+    );
+
+const settingsOverlay =
+    document.getElementById(
+        "settingsOverlay"
+    );
+
+
+settingsButton.addEventListener(
+    "click",
+    openSettings
+);
+
+
+closeSettings.addEventListener(
+    "click",
+    closeSettingsPanel
+);
+
+
+settingsOverlay.addEventListener(
+    "click",
+    closeSettingsPanel
+);
+
+
+function openSettings() {
+
+    settingsPanel.classList.add(
+        "open"
+    );
+
+    settingsOverlay.classList.add(
+        "open"
+    );
+
+}
+
+
+function closeSettingsPanel() {
+
+    settingsPanel.classList.remove(
+        "open"
+    );
+
+    settingsOverlay.classList.remove(
+        "open"
+    );
+
+}
+
+const unitSelect =
+    document.getElementById(
+        "unitSelect"
+    );
+
+
+unitSelect.addEventListener(
+    "change",
+    function () {
+
+        currentUnit =
+            this.value;
+
+
+        if (
+            currentWeatherData
+        ) {
+
+            displayCurrentWeather();
+
+        }
+
+
+        if (
+            currentForecastData
+        ) {
+
+            displayHourlyForecast();
+
+            displayDailyForecast();
+
+        }
+
+    }
+);
+
+const animationToggle =
+    document.getElementById(
+        "animationToggle"
+    );
+
+
+animationToggle.addEventListener(
+    "change",
+    function () {
+
+        if (this.checked) {
+
+            document.body.classList.remove(
+                "no-animation"
+            );
+
+        } else {
+
+            document.body.classList.add(
+                "no-animation"
+            );
+
+        }
+
+    }
+);
+
+function getErrorMessage(
     status,
     data
 ) {
 
-    if (
-        status === 401
-    ) {
+    if (status === 401) {
 
         return (
             "API Key tidak valid atau belum aktif. " +
-            "Periksa API Key OpenWeatherMap kamu."
+            "Periksa API Key OpenWeatherMap."
         );
 
     }
 
 
-    if (
-        status === 404
-    ) {
+    if (status === 404) {
 
         return (
             "Kota tidak ditemukan. " +
-            "Periksa kembali nama kota."
+            "Periksa nama kota."
         );
 
     }
 
 
-    if (
-        status === 429
-    ) {
+    if (status === 429) {
 
         return (
             "Batas penggunaan API sudah tercapai."
@@ -863,6 +983,27 @@ function getApiErrorMessage(
     return (
         data.message ||
         "Gagal mengambil data cuaca."
+    );
+
+}
+
+
+function showError(message) {
+
+    errorText.textContent =
+        message;
+
+    errorBox.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+function hideError() {
+
+    errorBox.classList.add(
+        "hidden"
     );
 
 }
@@ -884,32 +1025,17 @@ function hideLoading() {
 
 }
 
-function showError(
-    message
-) {
+function capitalize(text) {
 
-    errorText.textContent =
-        message;
-
-
-    errorMessage.classList.remove(
-        "hidden"
+    return (
+        text.charAt(0).toUpperCase() +
+        text.slice(1)
     );
 
 }
 
 
-function hideError() {
-
-    errorMessage.classList.add(
-        "hidden"
-    );
-
-}
-
-function formatTime(
-    timestamp
-) {
+function formatTime(timestamp) {
 
     const date =
         new Date(
@@ -927,14 +1053,13 @@ function formatTime(
 
 }
 
+
 function getDayName(
     date,
     index
 ) {
 
-    if (
-        index === 0
-    ) {
+    if (index === 0) {
 
         return "Hari ini";
 
@@ -960,16 +1085,6 @@ function getDayName(
 
 }
 
-function capitalize(
-    text
-) {
-
-    return (
-        text.charAt(0).toUpperCase() +
-        text.slice(1)
-    );
-
-}
 
 function calculateDewPoint(
     temperature,
@@ -1003,9 +1118,8 @@ function calculateDewPoint(
 
 }
 
-function getCountryName(
-    code
-) {
+
+function getCountryName(code) {
 
     const countries = {
 
@@ -1033,18 +1147,9 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        /*
-            Kota default.
-        */
-
         cityInput.value =
             "Medan";
 
-
-        /*
-            Langsung ambil data
-            ketika website dibuka.
-        */
 
         searchWeather();
 
