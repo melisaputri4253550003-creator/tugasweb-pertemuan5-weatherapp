@@ -19,82 +19,21 @@ body {
         Helvetica,
         sans-serif;
 
-    color: white;
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #07111d,
+            #13283b,
+            #07111c
+        );
 
     overflow-x: hidden;
 
-    background:
-        linear-gradient(
-            180deg,
-            #078de8,
-            #49a9df
-        );
-
-    transition:
-        background 0.8s ease;
-
 }
 
-/* CERAH */
-
-body.sunny {
-
-    background:
-        linear-gradient(
-            180deg,
-            #0795f5 0%,
-            #38a9ed 50%,
-            #68b8e8 100%
-        );
-
-}
-
-
-/* MENDUNG */
-
-body.cloudy {
-
-    background:
-        linear-gradient(
-            180deg,
-            #596873 0%,
-            #77838c 50%,
-            #59636b 100%
-        );
-
-}
-
-
-/* HUJAN */
-
-body.rainy {
-
-    background:
-        linear-gradient(
-            180deg,
-            #35434e 0%,
-            #46535d 45%,
-            #242d34 100%
-        );
-
-}
-
-
-/* BADAI */
-
-body.stormy {
-
-    background:
-        linear-gradient(
-            180deg,
-            #101820 0%,
-            #202932 45%,
-            #080d12 100%
-        );
-
-}
-
-.weather-animation {
+.weather-background {
 
     position: fixed;
 
@@ -108,314 +47,93 @@ body.stormy {
 
 }
 
-.sun-animation {
+
+.glow {
 
     position: absolute;
 
-    top: 80px;
+    width: 500px;
 
-    right: -35px;
-
-    font-size: 115px;
-
-    opacity: 0;
-
-    filter:
-        drop-shadow(
-            0 0 30px
-            rgba(255, 220, 80, 0.8)
-        );
-
-    animation:
-        sunFloat 6s ease-in-out infinite;
-
-}
-
-
-body.sunny .sun-animation {
-
-    opacity: 0.9;
-
-}
-
-
-@keyframes sunFloat {
-
-    0% {
-
-        transform:
-            translateY(0)
-            rotate(0deg)
-            scale(1);
-
-    }
-
-    50% {
-
-        transform:
-            translateY(12px)
-            rotate(8deg)
-            scale(1.08);
-
-    }
-
-    100% {
-
-        transform:
-            translateY(0)
-            rotate(0deg)
-            scale(1);
-
-    }
-
-}
-
-.cloud-animation {
-
-    position: absolute;
-
-    left: -180px;
-
-    font-size: 110px;
-
-    opacity: 0;
-
-    white-space: nowrap;
-
-}
-
-
-.cloud-one {
-
-    top: 90px;
-
-    animation:
-        cloudMoveOne 24s linear infinite;
-
-}
-
-
-.cloud-two {
-
-    top: 180px;
-
-    font-size: 75px;
-
-    animation:
-        cloudMoveTwo 32s linear infinite;
-
-    animation-delay: 4s;
-
-}
-
-
-/* CERAH */
-
-body.sunny .cloud-animation {
-
-    opacity: 0.55;
-
-}
-
-
-/* MENDUNG */
-
-body.cloudy .cloud-animation {
-
-    opacity: 0.95;
-
-    filter:
-        grayscale(1)
-        brightness(0.5)
-        drop-shadow(
-            0 10px 15px
-            rgba(0, 0, 0, 0.4)
-        );
-
-}
-
-
-/* HUJAN */
-
-body.rainy .cloud-animation {
-
-    opacity: 1;
-
-    filter:
-        grayscale(1)
-        brightness(0.35)
-        drop-shadow(
-            0 12px 20px
-            rgba(0, 0, 0, 0.6)
-        );
-
-}
-
-
-/* BADAI */
-
-body.stormy .cloud-animation {
-
-    opacity: 1;
-
-    filter:
-        grayscale(1)
-        brightness(0.2)
-        drop-shadow(
-            0 12px 25px
-            rgba(0, 0, 0, 0.8)
-        );
-
-}
-
-
-@keyframes cloudMoveOne {
-
-    from {
-
-        transform:
-            translateX(0);
-
-    }
-
-    to {
-
-        transform:
-            translateX(
-                calc(100vw + 400px)
-            );
-
-    }
-
-}
-
-
-@keyframes cloudMoveTwo {
-
-    from {
-
-        transform:
-            translateX(0);
-
-    }
-
-    to {
-
-        transform:
-            translateX(
-                calc(100vw + 450px)
-            );
-
-    }
-
-}
-
-.rain-container {
-
-    position: absolute;
-
-    inset: 0;
-
-    opacity: 0;
-
-}
-
-
-body.rainy .rain-container,
-body.stormy .rain-container {
-
-    opacity: 1;
-
-}
-
-
-.raindrop {
-
-    position: absolute;
-
-    top: -40px;
-
-    width: 2px;
-
-    height: 20px;
+    height: 500px;
 
     border-radius: 50%;
 
+    filter: blur(100px);
+
+    opacity: 0.25;
+
+}
+
+
+.glow-one {
+
+    top: -180px;
+
+    right: -100px;
+
+    background: #2989e8;
+
+}
+
+
+.glow-two {
+
+    bottom: -250px;
+
+    left: -150px;
+
+    background: #24658e;
+
+}
+
+body.sunny {
+
     background:
-        rgba(
-            220,
-            240,
-            255,
-            0.65
+        linear-gradient(
+            135deg,
+            #087bd1,
+            #39a7ed,
+            #8ed7f7
         );
 
-    animation:
-        rainFall linear infinite;
+}
+
+
+body.cloudy {
+
+    background:
+        linear-gradient(
+            135deg,
+            #3e4c58,
+            #68747d,
+            #424d56
+        );
 
 }
 
 
-@keyframes rainFall {
+body.rainy {
 
-    from {
-
-        transform:
-            translateY(-40px)
-            rotate(12deg);
-
-    }
-
-    to {
-
-        transform:
-            translateY(110vh)
-            rotate(12deg);
-
-    }
-
-}
-
-.lightning {
-
-    position: absolute;
-
-    top: 80px;
-
-    left: 50%;
-
-    font-size: 110px;
-
-    opacity: 0;
+    background:
+        linear-gradient(
+            135deg,
+            #162534,
+            #263b4c,
+            #111d29
+        );
 
 }
 
 
-body.stormy .lightning {
+body.stormy {
 
-    animation:
-        lightningFlash 7s infinite;
-
-}
-
-
-@keyframes lightningFlash {
-
-    0%,
-    83%,
-    87%,
-    90%,
-    100% {
-
-        opacity: 0;
-
-    }
-
-    84%,
-    88% {
-
-        opacity: 0.9;
-
-    }
+    background:
+        linear-gradient(
+            135deg,
+            #070c13,
+            #151c25,
+            #05080c
+        );
 
 }
 
@@ -425,29 +143,62 @@ body.stormy .lightning {
 
     z-index: 2;
 
-    width: 100%;
+    width: min(
+        920px,
+        calc(100% - 48px)
+    );
 
-    max-width: 780px;
+    min-height: calc(
+        100vh - 48px
+    );
 
-    min-height: 100vh;
-
-    margin: auto;
+    margin: 24px auto;
 
     padding:
-        20px
-        22px
+        32px
+        34px
         30px;
 
-    background:
+    border-radius: 34px;
+
+    border:
+        1px solid
         rgba(
-            15,
-            23,
-            32,
-            0.76
+            255,
+            255,
+            255,
+            0.16
+        );
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20, 34, 47, 0.88),
+            rgba(8, 18, 28, 0.78)
+        );
+
+    box-shadow:
+        0 30px 80px
+        rgba(
+            0,
+            0,
+            0,
+            0.38
+        ),
+
+        inset 0 1px 0
+        rgba(
+            255,
+            255,
+            255,
+            0.08
         );
 
     backdrop-filter:
-        blur(15px);
+        blur(25px);
+
+    -webkit-backdrop-filter:
+        blur(25px);
 
 }
 
@@ -459,14 +210,21 @@ body.stormy .lightning {
 
     align-items: center;
 
-    margin-bottom: 20px;
-
 }
 
 
 .location h1 {
 
-    font-size: 30px;
+    font-size: 34px;
+
+    font-weight: 700;
+
+    letter-spacing: -1px;
+
+}
+
+
+.location h1 span {
 
     font-weight: 700;
 
@@ -475,11 +233,17 @@ body.stormy .lightning {
 
 .location p {
 
-    margin-top: 3px;
+    margin-top: 4px;
 
-    font-size: 16px;
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.65
+        );
 
-    opacity: 0.75;
+    font-size: 17px;
 
 }
 
@@ -488,18 +252,30 @@ body.stormy .lightning {
 
     display: flex;
 
-    gap: 10px;
+    gap: 12px;
 
 }
 
 
 .header-buttons button {
 
-    width: 55px;
+    display: flex;
 
-    height: 55px;
+    justify-content: center;
 
-    border: none;
+    align-items: center;
+
+    width: 68px;
+
+    height: 68px;
+
+    border: 1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
 
     border-radius: 50%;
 
@@ -510,22 +286,66 @@ body.stormy .lightning {
             255,
             255,
             255,
-            0.12
+            0.11
         );
 
-    font-size: 25px;
+    font-size: 32px;
 
     cursor: pointer;
 
+    transition:
+        0.25s ease;
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(
+            255,
+            255,
+            255,
+            0.07
+        );
+
 }
+
+
+.header-buttons button:hover {
+
+    transform:
+        translateY(-3px);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.18
+        );
+
+    box-shadow:
+        0 10px 30px
+        rgba(
+            0,
+            0,
+            0,
+            0.2
+        );
+
+}
+
+.search-wrapper {
+
+    margin-top: 28px;
+
+}
+
 
 .search-box {
 
     display: flex;
 
-    gap: 10px;
+    align-items: center;
 
-    margin-bottom: 20px;
+    gap: 12px;
 
 }
 
@@ -537,13 +357,19 @@ body.stormy .lightning {
     height: 62px;
 
     padding:
-        0 22px;
+        0 25px;
 
-    border: none;
-
-    outline: none;
+    border: 1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.1
+        );
 
     border-radius: 32px;
+
+    outline: none;
 
     color: white;
 
@@ -552,10 +378,43 @@ body.stormy .lightning {
             255,
             255,
             255,
-            0.15
+            0.13
         );
 
     font-size: 17px;
+
+    transition:
+        0.25s ease;
+
+}
+
+
+.search-box input:focus {
+
+    border-color:
+        rgba(
+            130,
+            210,
+            255,
+            0.5
+        );
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.17
+        );
+
+    box-shadow:
+        0 0 25px
+        rgba(
+            60,
+            170,
+            255,
+            0.12
+        );
 
 }
 
@@ -567,7 +426,7 @@ body.stormy .lightning {
             255,
             255,
             255,
-            0.65
+            0.5
         );
 
 }
@@ -577,7 +436,15 @@ body.stormy .lightning {
 
     width: 62px;
 
-    border: none;
+    height: 62px;
+
+    border: 1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.1
+        );
 
     border-radius: 50%;
 
@@ -588,34 +455,87 @@ body.stormy .lightning {
             255,
             255,
             255,
-            0.14
+            0.12
         );
 
-    font-size: 20px;
+    font-size: 21px;
 
     cursor: pointer;
+
+    transition:
+        0.25s;
+
+}
+
+
+.search-box button:hover {
+
+    transform:
+        scale(1.06);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.2
+        );
 
 }
 
 .current-weather {
 
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
     text-align: center;
 
     padding:
-        30px
+        48px
         10px
-        35px;
+        38px;
 
 }
 
 
-.current-icon img {
+.weather-icon-wrapper {
 
-    width: 125px;
+    width: 140px;
 
-    height: 125px;
+    height: 140px;
 
-    object-fit: contain;
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    margin-bottom: 8px;
+
+}
+
+
+.weather-icon-wrapper img {
+
+    width: 140px;
+
+    height: 140px;
+
+    image-rendering: auto;
+
+    filter:
+        drop-shadow(
+            0 10px 25px
+            rgba(
+                0,
+                0,
+                0,
+                0.25
+            )
+        );
 
 }
 
@@ -624,38 +544,57 @@ body.stormy .lightning {
 
     display: flex;
 
-    justify-content: center;
-
     align-items: flex-start;
 
-}
-
-
-.temperature span {
-
-    font-size: 100px;
-
-    font-weight: 300;
+    justify-content: center;
 
     line-height: 1;
 
 }
 
 
-.temperature sup {
+.temperature span {
 
-    margin-top: 8px;
+    font-size: clamp(
+        90px,
+        13vw,
+        138px
+    );
 
-    font-size: 35px;
+    font-weight: 300;
+
+    letter-spacing: -7px;
+
+    text-shadow:
+        0 8px 35px
+        rgba(
+            0,
+            0,
+            0,
+            0.22
+        );
 
 }
 
 
-.weather-description {
+.temperature sup {
 
     margin-top: 12px;
 
-    font-size: 18px;
+    margin-left: 5px;
+
+    font-size: 38px;
+
+    font-weight: 400;
+
+}
+
+
+.current-weather h2 {
+
+    margin-top: 14px;
+
+    font-size: 22px;
 
     font-weight: 500;
 
@@ -664,19 +603,25 @@ body.stormy .lightning {
 
 .weather-range {
 
-    margin-top: 7px;
+    margin-top: 8px;
 
-    font-size: 14px;
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.65
+        );
 
-    opacity: 0.7;
+    font-size: 16px;
 
 }
 
-.glass-card {
+.weather-card {
 
-    margin-bottom: 14px;
+    margin-top: 15px;
 
-    padding: 18px;
+    padding: 22px;
 
     border:
         1px solid
@@ -684,80 +629,64 @@ body.stormy .lightning {
             255,
             255,
             255,
-            0.12
+            0.13
         );
 
-    border-radius: 22px;
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(
+                255,
+                255,
+                255,
+                0.12
+            ),
+            rgba(
+                255,
+                255,
+                255,
+                0.065
+            )
+        );
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(
+            255,
+            255,
+            255,
+            0.06
+        );
+
+    backdrop-filter:
+        blur(15px);
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease;
+
+}
+
+
+.weather-card:hover {
 
     background:
         rgba(
             255,
             255,
             255,
-            0.11
+            0.12
         );
 
-    backdrop-filter:
-        blur(12px);
-
-}
-
-.pollen-card {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
+    transform:
+        translateY(-2px);
 
 }
 
 
-.pollen-left {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 14px;
-
-}
-
-
-.pollen-icon {
-
-    font-size: 32px;
-
-}
-
-
-.pollen-left h3 {
-
-    font-size: 18px;
-
-}
-
-
-.pollen-left p {
-
-    margin-top: 5px;
-
-    font-size: 12px;
-
-    opacity: 0.7;
-
-}
-
-
-.detail-link {
-
-    font-size: 13px;
-
-    opacity: 0.75;
-
-}
-
-.section-title {
+.section-header {
 
     display: flex;
 
@@ -765,25 +694,29 @@ body.stormy .lightning {
 
     align-items: center;
 
-    margin-bottom: 15px;
+    margin-bottom: 16px;
 
 }
 
 
-.section-title h2 {
+.section-header h2 {
 
-    font-size: 16px;
+    font-size: 17px;
 
-    font-weight: 500;
+    font-weight: 600;
 
 }
 
 
-.section-title span {
+.section-header span {
 
-    font-size: 13px;
-
-    opacity: 0.65;
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.55
+        );
 
 }
 
@@ -791,7 +724,7 @@ body.stormy .lightning {
 
     display: flex;
 
-    gap: 9px;
+    gap: 10px;
 
     overflow-x: auto;
 
@@ -809,22 +742,36 @@ body.stormy .lightning {
 
 .hour-item {
 
-    min-width: 78px;
+    min-width: 86px;
 
-    padding:
-        12px
-        7px;
+    padding: 13px 8px;
 
     text-align: center;
 
-    border-radius: 15px;
+    border-radius: 18px;
 
     background:
         rgba(
             255,
             255,
             255,
-            0.07
+            0.065
+        );
+
+    transition:
+        0.2s;
+
+}
+
+
+.hour-item:hover {
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.13
         );
 
 }
@@ -837,7 +784,7 @@ body.stormy .lightning {
             255,
             255,
             255,
-            0.18
+            0.17
         );
 
 }
@@ -847,18 +794,24 @@ body.stormy .lightning {
 
     font-size: 11px;
 
-    opacity: 0.7;
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.65
+        );
 
 }
 
 
 .hour-item img {
 
-    width: 38px;
+    width: 48px;
 
-    height: 38px;
+    height: 48px;
 
-    margin: 5px 0;
+    margin: 3px 0;
 
 }
 
@@ -867,7 +820,7 @@ body.stormy .lightning {
 
     font-size: 14px;
 
-    font-weight: bold;
+    font-weight: 600;
 
 }
 
@@ -886,12 +839,12 @@ body.stormy .lightning {
 
     grid-template-columns:
         1fr
-        55px
-        100px;
+        70px
+        110px;
 
     align-items: center;
 
-    min-height: 58px;
+    min-height: 62px;
 
     border-bottom:
         1px solid
@@ -899,7 +852,7 @@ body.stormy .lightning {
             255,
             255,
             255,
-            0.08
+            0.07
         );
 
 }
@@ -914,7 +867,7 @@ body.stormy .lightning {
 
 .day-name {
 
-    font-size: 13px;
+    font-size: 14px;
 
 }
 
@@ -928,9 +881,7 @@ body.stormy .lightning {
 
 .day-weather img {
 
-    width: 38px;
-
-    height: 38px;
+    width: 44px;
 
 }
 
@@ -939,33 +890,15 @@ body.stormy .lightning {
 
     text-align: right;
 
-    font-size: 13px;
-
-}
-
-.detail-button {
-
-    width: 100%;
-
-    margin-top: 15px;
-
-    padding: 14px;
-
-    border: none;
-
-    border-radius: 25px;
-
-    color: white;
-
-    background:
+    color:
         rgba(
             255,
             255,
             255,
-            0.13
+            0.82
         );
 
-    font-size: 15px;
+    font-size: 13px;
 
 }
 
@@ -976,61 +909,67 @@ body.stormy .lightning {
     grid-template-columns:
         repeat(3, 1fr);
 
-    gap: 9px;
+    gap: 10px;
 
 }
 
 
 .detail-item {
 
-    min-height: 100px;
+    min-height: 105px;
 
-    padding: 13px 7px;
+    display: flex;
 
-    text-align: center;
+    flex-direction: column;
 
-    border-radius: 16px;
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 18px;
 
     background:
         rgba(
             255,
             255,
             255,
-            0.07
+            0.065
         );
+
+    text-align: center;
 
 }
 
 
 .detail-item span {
 
-    display: block;
-
-    font-size: 23px;
-
-    margin-bottom: 7px;
+    font-size: 24px;
 
 }
 
 
 .detail-item small {
 
-    display: block;
+    margin-top: 7px;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.55
+        );
 
     font-size: 10px;
-
-    opacity: 0.65;
 
 }
 
 
 .detail-item strong {
 
-    display: block;
+    margin-top: 5px;
 
-    margin-top: 7px;
-
-    font-size: 13px;
+    font-size: 14px;
 
 }
 
@@ -1039,13 +978,13 @@ body.stormy .lightning {
     display: grid;
 
     grid-template-columns:
-        65px
+        80px
         1fr
-        65px;
-
-    gap: 10px;
+        80px;
 
     align-items: center;
+
+    gap: 15px;
 
 }
 
@@ -1063,23 +1002,29 @@ body.stormy .lightning {
 
 .sun-info span {
 
-    font-size: 18px;
+    font-size: 21px;
 
 }
 
 
 .sun-info small {
 
-    font-size: 9px;
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.5
+        );
 
-    opacity: 0.65;
+    font-size: 10px;
 
 }
 
 
 .sun-info strong {
 
-    font-size: 12px;
+    font-size: 13px;
 
 }
 
@@ -1091,34 +1036,43 @@ body.stormy .lightning {
 }
 
 
-.sun-track {
+.sun-line {
 
     height: 2px;
 
     position: relative;
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            0.4
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(
+                255,
+                255,
+                255,
+                0.55
+            ),
+            transparent
         );
 
 }
 
 
-.sun-dot {
+.sun-point {
 
     position: absolute;
 
-    top: 50%;
-
     left: 50%;
+
+    top: 50%;
 
     width: 12px;
 
     height: 12px;
+
+    border-radius: 50%;
+
+    background: white;
 
     transform:
         translate(
@@ -1126,47 +1080,598 @@ body.stormy .lightning {
             -50%
         );
 
+    box-shadow:
+        0 0 18px
+        rgba(
+            255,
+            255,
+            255,
+            0.8
+        );
+
+}
+
+.sun-animation {
+
+    position: absolute;
+
+    top: 8%;
+
+    right: 8%;
+
+    color: #ffe68a;
+
+    font-size: 110px;
+
+    opacity: 0;
+
+    filter:
+        drop-shadow(
+            0 0 30px
+            rgba(
+                255,
+                220,
+                100,
+                0.7
+            )
+        );
+
+    animation:
+        sunFloat 6s ease-in-out infinite;
+
+}
+
+
+body.sunny .sun-animation {
+
+    opacity: 0.55;
+
+}
+
+
+@keyframes sunFloat {
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0)
+            rotate(0deg);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(15px)
+            rotate(8deg);
+
+    }
+
+}
+
+.cloud-animation {
+
+    position: absolute;
+
+    left: -200px;
+
+    color: white;
+
+    font-size: 120px;
+
+    opacity: 0;
+
+    filter:
+        drop-shadow(
+            0 15px 25px
+            rgba(
+                0,
+                0,
+                0,
+                0.3
+            )
+        );
+
+}
+
+
+.cloud-one {
+
+    top: 12%;
+
+    animation:
+        cloudMove 30s linear infinite;
+
+}
+
+
+.cloud-two {
+
+    top: 23%;
+
+    font-size: 85px;
+
+    animation:
+        cloudMove 42s linear infinite;
+
+    animation-delay: 4s;
+
+}
+
+
+body.sunny .cloud-animation {
+
+    opacity: 0.25;
+
+}
+
+
+body.cloudy .cloud-animation {
+
+    color: #313b44;
+
+    opacity: 0.75;
+
+}
+
+
+body.rainy .cloud-animation {
+
+    color: #1c2732;
+
+    opacity: 0.85;
+
+}
+
+
+body.stormy .cloud-animation {
+
+    color: #111820;
+
+    opacity: 0.9;
+
+}
+
+
+@keyframes cloudMove {
+
+    from {
+
+        transform:
+            translateX(0);
+
+    }
+
+    to {
+
+        transform:
+            translateX(
+                calc(100vw + 500px)
+            );
+
+    }
+
+}
+
+#rainContainer {
+
+    position: absolute;
+
+    inset: 0;
+
+}
+
+
+.raindrop {
+
+    position: absolute;
+
+    top: -40px;
+
+    width: 2px;
+
+    height: 22px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(
+            190,
+            225,
+            255,
+            0.7
+        );
+
+    animation:
+        rainFall linear infinite;
+
+}
+
+
+@keyframes rainFall {
+
+    from {
+
+        transform:
+            translateY(-40px)
+            rotate(10deg);
+
+    }
+
+    to {
+
+        transform:
+            translateY(110vh)
+            rotate(10deg);
+
+    }
+
+}
+
+.lightning {
+
+    position: absolute;
+
+    top: 12%;
+
+    left: 50%;
+
+    font-size: 90px;
+
+    opacity: 0;
+
+}
+
+
+body.stormy .lightning {
+
+    animation:
+        lightningFlash 5s infinite;
+
+}
+
+
+@keyframes lightningFlash {
+
+    0%,
+    82%,
+    87%,
+    92%,
+    100% {
+
+        opacity: 0;
+
+    }
+
+    84%,
+    89% {
+
+        opacity: 1;
+
+        filter:
+            drop-shadow(
+                0 0 30px
+                #fff
+            );
+
+    }
+
+}
+
+.side-panel {
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    z-index: 30;
+
+    width: 310px;
+
+    height: 100vh;
+
+    padding: 28px;
+
+    background:
+        rgba(
+            18,
+            28,
+            38,
+            0.96
+        );
+
+    border-right:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.12
+        );
+
+    backdrop-filter:
+        blur(25px);
+
+    transform:
+        translateX(-100%);
+
+    transition:
+        transform 0.3s ease;
+
+}
+
+
+.side-panel.open {
+
+    transform:
+        translateX(0);
+
+}
+
+
+.panel-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 30px;
+
+}
+
+
+.panel-header h2 {
+
+    font-size: 21px;
+
+}
+
+
+.close-button {
+
+    width: 40px;
+
+    height: 40px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    color: white;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.1
+        );
+
+    font-size: 25px;
+
+    cursor: pointer;
+
+}
+
+
+.menu-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    width: 100%;
+
+    margin-bottom: 7px;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 15px;
+
+    color: white;
+
+    background: transparent;
+
+    text-align: left;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition:
+        0.2s;
+
+}
+
+
+.menu-item:hover {
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.1
+        );
+
+}
+
+.overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 20;
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            0.55
+        );
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+        0.3s;
+
+}
+
+
+.overlay.open {
+
+    opacity: 1;
+
+    visibility: visible;
+
+}
+
+.setting-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 18px 0;
+
+    border-bottom:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+}
+
+
+.setting-row strong {
+
+    display: block;
+
+    font-size: 14px;
+
+}
+
+
+.setting-row small {
+
+    display: block;
+
+    margin-top: 5px;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.5
+        );
+
+    font-size: 10px;
+
+}
+
+
+.setting-row select {
+
+    padding: 8px;
+
+    border: none;
+
+    border-radius: 8px;
+
+}
+
+.switch {
+
+    position: relative;
+
+    width: 48px;
+
+    height: 26px;
+
+}
+
+
+.switch input {
+
+    opacity: 0;
+
+    width: 0;
+
+    height: 0;
+
+}
+
+
+.slider {
+
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 20px;
+
+    background: #555;
+
+    cursor: pointer;
+
+}
+
+
+.slider::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 3px;
+
+    top: 3px;
+
+    width: 20px;
+
+    height: 20px;
+
     border-radius: 50%;
 
     background: white;
 
-}
-
-.tips-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap: 25px 10px;
+    transition: 0.25s;
 
 }
 
 
-.tip {
+.switch input:checked + .slider {
 
-    text-align: center;
-
-}
-
-
-.tip span {
-
-    font-size: 25px;
+    background: #299be9;
 
 }
 
 
-.tip p {
+.switch input:checked + .slider::before {
 
-    margin-top: 7px;
-
-    font-size: 10px;
-
-    line-height: 1.4;
-
-    opacity: 0.75;
+    transform:
+        translateX(22px);
 
 }
 
@@ -1180,18 +1685,16 @@ body.stormy .lightning {
 
     gap: 10px;
 
-    padding: 25px;
-
-    font-size: 13px;
+    padding: 30px;
 
 }
 
 
 .spinner {
 
-    width: 22px;
+    width: 23px;
 
-    height: 22px;
+    height: 23px;
 
     border:
         3px solid
@@ -1225,11 +1728,7 @@ body.stormy .lightning {
 
 .error-box {
 
-    display: flex;
-
-    gap: 12px;
-
-    align-items: center;
+    margin-top: 20px;
 
     padding: 18px;
 
@@ -1237,51 +1736,49 @@ body.stormy .lightning {
 
     background:
         rgba(
-            150,
-            30,
-            30,
-            0.35
+            170,
+            45,
+            45,
+            0.4
         );
-
-}
-
-
-.error-icon {
-
-    font-size: 28px;
-
-}
-
-
-.error-box strong {
-
-    font-size: 14px;
 
 }
 
 
 .error-box p {
 
-    margin-top: 5px;
+    margin-top: 7px;
 
-    font-size: 11px;
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.75
+        );
 
-    opacity: 0.8;
+    font-size: 12px;
 
 }
 
 footer {
 
     padding:
-        25px
+        28px
         0
         5px;
 
     text-align: center;
 
-    font-size: 10px;
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.35
+        );
 
-    opacity: 0.45;
+    font-size: 10px;
 
 }
 
@@ -1291,80 +1788,114 @@ footer {
 
 }
 
-@media (max-width: 600px) {
+
+body.no-animation .weather-background {
+
+    display: none;
+
+}
+
+@media (max-width: 700px) {
 
     .weather-app {
 
-        max-width: 100%;
+        width:
+            calc(
+                100% - 24px
+            );
+
+        min-height:
+            calc(
+                100vh - 24px
+            );
+
+        margin: 12px auto;
 
         padding:
-            15px
-            12px
+            22px
+            18px
             25px;
+
+        border-radius: 27px;
 
     }
 
 
     .location h1 {
 
-        font-size: 24px;
+        font-size: 25px;
 
     }
 
 
     .location p {
 
-        font-size: 13px;
+        font-size: 14px;
+
+    }
+
+
+    .header-buttons {
+
+        gap: 7px;
 
     }
 
 
     .header-buttons button {
 
-        width: 43px;
+        width: 52px;
 
-        height: 43px;
+        height: 52px;
 
-        font-size: 20px;
+        font-size: 25px;
 
     }
 
 
     .search-box input {
 
-        height: 52px;
+        height: 55px;
 
-        font-size: 14px;
+        font-size: 15px;
 
     }
 
 
     .search-box button {
 
-        width: 52px;
+        width: 55px;
+
+        height: 55px;
 
     }
 
 
     .current-weather {
 
-        padding-top: 20px;
+        padding:
+            35px
+            5px
+            28px;
 
     }
 
 
-    .current-icon img {
+    .weather-icon-wrapper,
+    .weather-icon-wrapper img {
 
-        width: 100px;
+        width: 110px;
 
-        height: 100px;
+        height: 110px;
 
     }
 
 
     .temperature span {
 
-        font-size: 80px;
+        font-size: 82px;
+
+        letter-spacing: -4px;
 
     }
 
@@ -1376,62 +1907,107 @@ footer {
     }
 
 
-    .glass-card {
+    .current-weather h2 {
 
-        border-radius: 18px;
+        font-size: 19px;
 
-        padding: 15px;
+    }
+
+
+    .weather-card {
+
+        padding: 17px;
+
+        border-radius: 21px;
 
     }
 
 
     .details-grid {
 
-        gap: 6px;
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+    .day-item {
+
+        grid-template-columns:
+            1fr
+            55px
+            90px;
+
+    }
+
+
+    .sun-card {
+
+        grid-template-columns:
+            60px
+            1fr
+            60px;
+
+    }
+
+}
+
+@media (max-width: 420px) {
+
+    .weather-app {
+
+        width:
+            calc(
+                100% - 16px
+            );
+
+        margin: 8px auto;
+
+        padding:
+            18px
+            13px
+            22px;
+
+        border-radius: 23px;
+
+    }
+
+
+    .location h1 {
+
+        font-size: 21px;
+
+    }
+
+
+    .header-buttons button {
+
+        width: 46px;
+
+        height: 46px;
+
+        font-size: 22px;
+
+    }
+
+
+    .temperature span {
+
+        font-size: 72px;
+
+    }
+
+
+    .details-grid {
+
+        gap: 7px;
 
     }
 
 
     .detail-item {
 
-        min-height: 82px;
-
-    }
-
-
-    .tips-grid {
-
-        gap: 20px 5px;
-
-    }
-
-
-    .sun-animation {
-
-        font-size: 85px;
-
-        top: 75px;
-
-    }
-
-
-    .cloud-one {
-
-        font-size: 80px;
-
-    }
-
-
-    .cloud-two {
-
-        font-size: 60px;
-
-    }
-
-
-    .lightning {
-
-        font-size: 80px;
+        min-height: 95px;
 
     }
 
